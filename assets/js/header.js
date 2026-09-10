@@ -14,8 +14,7 @@
   document.querySelector("[data-site-header]").innerHTML = `
     <header class="site-header wrap">
       <a class="brand" href="index.html" aria-label="SpoTStudio home">
-        <span class="brand-mark" aria-hidden="true"><i>S</i><i>T</i></span>
-        <span>SpoTStudio</span>
+        <img class="brand-logo" src="assets/images/spotstudio-logo-cropped.png" alt="" width="68" height="68">
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main navigation">${linkMarkup}</nav>
@@ -29,4 +28,3 @@
     nav.classList.toggle("is-open", !open);
   });
 })();
-
