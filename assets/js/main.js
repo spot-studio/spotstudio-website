@@ -38,7 +38,8 @@
   function previewMarkup(item) {
     const media = item.media[0];
     const source = media.type === "video" ? media.poster : media.src;
-    return `<div class="artwork ${item.fit === "contain" ? "artwork-contain" : ""}">
+    const ratio = media.ratio || (media.type === "video" ? 16 / 9 : 4 / 3);
+    return `<div class="artwork ${item.fit === "contain" ? "artwork-contain" : ""}" style="aspect-ratio:${ratio}">
       <img src="${escapeHtml(source)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
       ${media.type === "video" ? '<span class="play-mark" aria-hidden="true">▶</span>' : ""}
     </div>`;
@@ -46,15 +47,35 @@
 
   function cardMarkup(item) {
     const hasProjectPage = item.media.length > 1;
+    const media = item.media[0];
+    const ratio = media.ratio || (media.type === "video" ? 16 / 9 : 4 / 3);
+    const sequence = Number((item.id.match(/\d+$/) || [0])[0]);
+    const spansTwoColumns = item.span === 2 || (item.span !== 1 && ratio >= 1.65 && media.type === "video" && sequence % 3 === 0);
     const openTag = hasProjectPage
       ? `<a class="project-open" href="project.html?id=${encodeURIComponent(item.id)}" aria-label="Explore ${escapeHtml(item.title)}">`
       : `<button type="button" class="project-open" data-project-id="${escapeHtml(item.id)}" aria-label="Enlarge ${escapeHtml(item.title)}">`;
     const closeTag = hasProjectPage ? "</a>" : "</button>";
-    return `<article class="project-card project-size-${item.size || "1x1"}">
+    return `<article class="project-card ${spansTwoColumns ? "project-card-wide" : ""}">
       ${openTag}${previewMarkup(item)}
         <span class="card-overlay"><span>${escapeHtml(item.title)}</span><i aria-hidden="true">↗</i></span>
       ${closeTag}
+      <div class="card-meta card-meta-compact">
+        <span>${escapeHtml(item.kicker)}</span>
+        <time datetime="${escapeHtml(item.year)}">${escapeHtml(item.year)}</time>
+      </div>
     </article>`;
+  }
+
+  function layoutMasonry() {
+    const styles = getComputedStyle(grid);
+    const rowHeight = parseFloat(styles.gridAutoRows);
+    const rowGap = parseFloat(styles.rowGap);
+    if (!rowHeight || Number.isNaN(rowGap)) return;
+    grid.querySelectorAll(".project-card").forEach((card) => {
+      card.style.gridRowEnd = "auto";
+      const height = card.scrollHeight;
+      card.style.gridRowEnd = `span ${Math.ceil((height + rowGap) / (rowHeight + rowGap))}`;
+    });
   }
 
   [minInput, maxInput].forEach((input) => {
@@ -90,6 +111,7 @@
     grid.innerHTML = visible.map(cardMarkup).join("");
     count.textContent = `${visible.length} ${visible.length === 1 ? "project" : "projects"}`;
     empty.hidden = visible.length !== 0;
+    requestAnimationFrame(layoutMasonry);
   }
 
   filterHost.addEventListener("click", (event) => {
@@ -134,6 +156,11 @@
   dialog.addEventListener("close", pauseDialogMedia);
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) closeDialog();
+  });
+  let resizeFrame;
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(layoutMasonry);
   });
   render();
 })();
