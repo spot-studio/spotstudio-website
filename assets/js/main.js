@@ -4,7 +4,8 @@
     element.textContent = currentYear;
   });
 
-  const items = window.PORTFOLIO_ITEMS;
+  const items = [...(window.PORTFOLIO_ITEMS || []), ...(window.PORTFOLIO_ITEMS_EXTRA || [])]
+    .sort((left, right) => right.year - left.year);
   const grid = document.getElementById("project-grid");
   if (!items || !grid) return;
 
@@ -18,8 +19,8 @@
   const yearRange = document.getElementById("year-range");
   const dialog = document.getElementById("project-dialog");
   const dialogContent = document.getElementById("dialog-content");
-  const categories = ["All", "Animations", "Journal & proposal covers", "Thesis covers"];
-  const firstYear = 2024;
+  const categories = ["All", "Visuals", "Animations", "Journal & proposal covers", "Thesis covers", "Projects"];
+  const firstYear = Math.min(...items.map((item) => item.year));
   let activeCategory = "All";
 
   function escapeHtml(value) {

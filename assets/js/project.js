@@ -6,7 +6,8 @@
 
   const host = document.getElementById("project-content");
   const id = new URLSearchParams(window.location.search).get("id");
-  const item = (window.PORTFOLIO_ITEMS || []).find((candidate) => candidate.id === id);
+  const item = [...(window.PORTFOLIO_ITEMS || []), ...(window.PORTFOLIO_ITEMS_EXTRA || [])]
+    .find((candidate) => candidate.id === id);
 
   function escapeHtml(value) {
     return String(value || "").replace(/[&<>'"]/g, (character) => ({
@@ -27,6 +28,8 @@
   }
 
   document.title = `${item.title} — SpoTStudio`;
+  const descriptionMeta = document.querySelector('meta[name="description"]');
+  if (descriptionMeta) descriptionMeta.content = item.description || `${item.title}, a scientific visual communication project by SpoTStudio.`;
   const reference = item.reference
     ? `<a class="publication-link" href="${escapeHtml(item.reference)}" target="_blank" rel="noreferrer">View publication ↗</a>`
     : "";
