@@ -17,7 +17,7 @@
 
   function richText(value) {
     return escapeHtml(value).split(/\n\n+/).filter(Boolean).map((paragraph) => {
-      const linked = paragraph.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
+      const linked = paragraph.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
       return `<p>${linked}</p>`;
     }).join("");
   }
@@ -31,7 +31,7 @@
   const descriptionMeta = document.querySelector('meta[name="description"]');
   if (descriptionMeta) descriptionMeta.content = item.description || `${item.title}, a scientific visual communication project by SpoTStudio.`;
   const reference = item.reference
-    ? `<a class="publication-link" href="${escapeHtml(item.reference)}" target="_blank" rel="noreferrer">View publication ↗</a>`
+    ? `<a class="publication-link" href="${escapeHtml(item.reference)}" target="_blank" rel="noopener noreferrer">View publication ↗</a>`
     : "";
   const media = item.media.map((entry, index) => {
     const visual = entry.type === "video"
