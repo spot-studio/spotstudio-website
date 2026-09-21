@@ -289,13 +289,13 @@ window.PORTFOLIO_ITEMS_EXTRA = [
     ]
   },
   {
-    "id": "project-motion-graphics",
-    "title": "Motion graphics and character animation",
+    "id": "project-motion-graphics-1",
+    "title": "Motion graphics fundamentals",
     "date": "May 2025",
     "year": 2025,
     "category": "Projects",
     "kicker": "Motion graphics",
-    "description": "2D animations are also fantastic to explain scientific topics and are quite common for marketing purposes. This are examples from 2D motion graphic courses. May 2025",
+    "description": "An example created during a 2D motion graphics course, exploring how animation can support scientific explanation and visual communication.",
     "reference": "",
     "fit": "cover",
     "media": [
@@ -305,14 +305,40 @@ window.PORTFOLIO_ITEMS_EXTRA = [
         "poster": "assets/portfolio-final/project-motion-graphics-1-poster.jpg",
         "label": "Motion graphics fundamentals",
         "description": ""
-      },
+      }
+    ]
+  },
+  {
+    "id": "project-motion-graphics-2",
+    "title": "Character animation — Part I",
+    "date": "May 2025",
+    "year": 2025,
+    "category": "Projects",
+    "kicker": "Motion graphics",
+    "description": "An example created during a 2D motion graphics course, exploring character animation for engaging visual communication.",
+    "reference": "",
+    "fit": "cover",
+    "media": [
       {
         "type": "video",
         "src": "assets/portfolio-final/project-motion-graphics-2.mp4",
         "poster": "assets/portfolio-final/project-motion-graphics-2-poster.jpg",
         "label": "Character animation — Part I",
         "description": ""
-      },
+      }
+    ]
+  },
+  {
+    "id": "project-motion-graphics-3",
+    "title": "Character animation — Part II",
+    "date": "May 2025",
+    "year": 2025,
+    "category": "Projects",
+    "kicker": "Motion graphics",
+    "description": "An example created during a 2D motion graphics course, exploring character animation for engaging visual communication.",
+    "reference": "",
+    "fit": "cover",
+    "media": [
       {
         "type": "video",
         "src": "assets/portfolio-final/project-motion-graphics-3.mp4",

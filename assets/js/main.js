@@ -20,7 +20,7 @@
   const dialog = document.getElementById("project-dialog");
   const dialogContent = document.getElementById("dialog-content");
   const categories = ["All", "Visuals", "Animations", "Journal & proposal covers", "Thesis covers", "Projects"];
-  const firstYear = Math.min(...items.map((item) => item.year));
+  const firstYear = 2023;
   let activeCategory = "All";
 
   function escapeHtml(value) {
