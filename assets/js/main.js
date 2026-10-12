@@ -79,6 +79,12 @@
     });
   }
 
+  let layoutFrame;
+  function queueMasonryLayout() {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(layoutMasonry);
+  }
+
   [minInput, maxInput].forEach((input) => {
     input.min = firstYear;
     input.max = currentYear;
@@ -112,7 +118,13 @@
     grid.innerHTML = visible.map(cardMarkup).join("");
     count.textContent = `${visible.length} ${visible.length === 1 ? "project" : "projects"}`;
     empty.hidden = visible.length !== 0;
-    requestAnimationFrame(layoutMasonry);
+    queueMasonryLayout();
+    grid.querySelectorAll("img").forEach((image) => {
+      if (!image.complete) {
+        image.addEventListener("load", queueMasonryLayout, { once: true });
+        image.addEventListener("error", queueMasonryLayout, { once: true });
+      }
+    });
   }
 
   filterHost.addEventListener("click", (event) => {
@@ -158,10 +170,10 @@
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) closeDialog();
   });
-  let resizeFrame;
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(layoutMasonry);
-  });
+  window.addEventListener("resize", queueMasonryLayout);
+  window.addEventListener("load", queueMasonryLayout);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(queueMasonryLayout);
+  }
   render();
 })();
